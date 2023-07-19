@@ -3,11 +3,14 @@
 #include <stdint.h>
 #include <float.h>
 #include <limits.h>
+#include "ccols.h"
+#include "cpath.h"
+
 // #include <time.h>
 //------------------------------------------------------------------------------------
 //  Program main entry point
 //------------------------------------------------------------------------------------
-const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK};
+const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
 
 int32_t NumPlayers = 4;
 int32_t randi(int32_t min, int32_t max)
@@ -18,22 +21,43 @@ void irand()
 {
     SetRandomSeed(32132);
 }
-typedef struct particle
-{
-    Vector2 p;
-    Vector2 v;
-    Color color;
-} particle;
 
-void rolldice(int32_t *dice)
+
+typedef struct pawn{
+    Color _color;
+    int x,y;
+    int px, py;
+    int place;
+}pawn;
+int rolldice()
 {
-    *dice = randi(1, 6);
+    return randi(1, 6);
 }
 typedef struct tile
 {
-    Color _color = BLACK;
+    Color _color;
 } tile;
-
+void movepawn(pawn *p){
+    const int posiblemoves[4][2] = {
+        {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    for (int i = 0; i < 4; i++){
+        const int nx = posiblemoves[i][0] + p->x;
+        const int ny = posiblemoves[i][1] + p->y;
+        
+        if (cpath[ny][nx] == 1)
+        {
+            if(nx != p->px || ny != p->py){
+                p->px = p->x;
+                p->py = p->y;
+                p->x = nx;
+                p->y = ny;
+                p->place++;
+                return;
+            }
+        }
+    }
+    return;
+}
 int main(void)
 {
 #ifdef __TINYC__
@@ -45,9 +69,9 @@ int main(void)
     //--------------------------------------------------------------------------------------
     int32_t screenWidth = 1280;
     int32_t screenHeight = 720;
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
+    
     SetTargetFPS(60); // Set our game to run at refresh rate
     //--------------------------------------------------------------------------------------
     const float div = 7;
@@ -60,11 +84,26 @@ int main(void)
             positions[i][j] = -INT32_MAX;
         }
     }
-    tile tilemap[11][11];
+
+    tile tilemap[13][13];
+    for (int i = 0; i < 13; i++){
+        for (int j = 0; j < 13; j++){
+            tilemap[i][j]._color = colors[ccols[j][i]];
+        }
+    }
+    pawn mpawn = {DARKGREEN, 1, 7, 1, 6};
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         screenWidth = GetScreenWidth();
         screenHeight = GetScreenHeight();
+        const int tilesizex = screenWidth / 13;
+        const int tilesizey = screenHeight / 13;
+        if(IsKeyPressed(KEY_SPACE)){
+        const int rn = rolldice();
+        for (int i = 0; i < rn; i++){
+            movepawn(&mpawn);
+        }
+        }
         // Update
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
@@ -75,12 +114,17 @@ int main(void)
 
         ClearBackground(RAYWHITE);
         // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-
-
+        for (int i = 0; i < 13; i++)
+        {
+            for (int j = 0; j < 13; j++)
+            {
+                DrawRectangle(i * tilesizex + tilesizex / 20, j * tilesizey + tilesizey / 20, (tilesizex * 9) / 10, (tilesizey * 9) / 10, tilemap[i][j]._color);
+            }
+        }
+        DrawCircle(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, 20, mpawn._color);
         EndDrawing();
         //----------------------------------------------------------------------------------
-    }
+        }
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
