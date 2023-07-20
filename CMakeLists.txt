@@ -12,11 +12,11 @@ endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
+set (outname ${PROJECT_NAME})
 if (EMSCRIPTEN)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
     set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
-
-
+    set (outname index)
 endif ()
 include(FetchContent)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
@@ -25,7 +25,7 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
 set(FETCHCONTENT_QUIET FALSE)
 FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master)
 FetchContent_MakeAvailable(raylib)
-add_executable(${PROJECT_NAME} src/main.c)
+add_executable(${outname} src/main.c)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 #target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
