@@ -67,8 +67,8 @@ int main(void)
     irand();
     // Initialization
     //--------------------------------------------------------------------------------------
-    int32_t screenWidth = 1280;
-    int32_t screenHeight = 720;
+    int32_t screenWidth = 600;
+    int32_t screenHeight = 600;
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     
