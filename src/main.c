@@ -67,8 +67,8 @@ int main(void)
     irand();
     // Initialization
     //--------------------------------------------------------------------------------------
-    int32_t screenWidth = 600;
-    int32_t screenHeight = 600;
+    int32_t screenWidth = 800;
+    int32_t screenHeight = 800;
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     
@@ -121,7 +121,7 @@ int main(void)
                 DrawRectangle(i * tilesizex + tilesizex / 20, j * tilesizey + tilesizey / 20, (tilesizex * 9) / 10, (tilesizey * 9) / 10, tilemap[i][j]._color);
             }
         }
-        DrawCircle(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, 20, mpawn._color);
+        DrawEllipse(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, tilesizex /3, tilesizey/3, mpawn._color);
         EndDrawing();
         //----------------------------------------------------------------------------------
         }
