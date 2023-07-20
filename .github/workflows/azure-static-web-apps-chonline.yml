@@ -1,0 +1,37 @@
+name: Build and Deploy Webassembly Project
+on: [push, workflow_dispatch]
+
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write
+      pages: write
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        
+      - name: Setup Emscripten toolchain
+        uses: mymindstorm/setup-emsdk@29ba4851d6da084ffdc1e0fc390efadbd75df9d1 # point to v11
+        with:
+          # Version to install
+          version: latest # optional, default is latest
+          
+      - name: Configure CMake
+        run: cmake -B ${{github.workspace}}/build_webasm -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DPLATFORM=Web
+
+      - name: Build
+        # Build your program with the given configuration
+        run: cmake --build ${{github.workspace}}/build_webasm
+      - name: Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          #repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations ######
+          app_location: ${{github.workspace}}/build_webasm/bin # App source code path relative to repository root
+
+          ###### End of Repository/Build Configurations ######
