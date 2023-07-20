@@ -13,7 +13,19 @@
 
     <!-- Allow the C++ to access the canvas element --> 
     <script type='text/javascript'>
-        var Module = {
+        var Module = {			
+            print: (function() {
+
+					return function(text) {
+                        console.log(text+"\n")
+					};
+				})(),
+				printErr: function(text) {
+						if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+						if (0) {
+							dump(text + '\n');
+						}
+				},		
             canvas: (function() { return document.getElementById('canvas'); })()
         };
     </script>
