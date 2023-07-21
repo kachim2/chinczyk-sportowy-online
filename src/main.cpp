@@ -6,47 +6,38 @@
 #include "ccols.h"
 #include "cpath.h"
 
-// #include <time.h>
-//------------------------------------------------------------------------------------
-//  Program main entry point
-//------------------------------------------------------------------------------------
 const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
 
 int32_t NumPlayers = 4;
-int32_t randi(int32_t min, int32_t max)
-{
+int32_t randi(int32_t min, int32_t max){
     return GetRandomValue(min, max);
 }
-void irand()
-{
+void irand(){
     SetRandomSeed(32132);
 }
 
-
 typedef struct pawn{
     Color _color;
-    int x,y;
+    int x, y;
     int px, py;
     int place;
-}pawn;
-int rolldice()
-{
+} pawn;
+int rolldice(){
     return randi(1, 6);
 }
-typedef struct tile
-{
+typedef struct tile{
     Color _color;
 } tile;
 void movepawn(pawn *p){
     const int posiblemoves[4][2] = {
         {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 4; i++)
+    {
         const int nx = posiblemoves[i][0] + p->x;
         const int ny = posiblemoves[i][1] + p->y;
-        
-        if (cpath[ny][nx] == 1)
-        {
-            if(nx != p->px || ny != p->py){
+
+        if (cpath[ny][nx] == 1){
+            if (nx != p->px || ny != p->py){
                 p->px = p->x;
                 p->py = p->y;
                 p->x = nx;
@@ -58,8 +49,7 @@ void movepawn(pawn *p){
     }
     return;
 }
-int main(void)
-{
+int main(void){
 #ifdef __TINYC__
     TraceLog(LOG_WARNING, "tcc");
 #endif
@@ -71,7 +61,7 @@ int main(void)
     int32_t screenHeight = 800;
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-    
+
     SetTargetFPS(60); // Set our game to run at refresh rate
     //--------------------------------------------------------------------------------------
     const float div = 7;
@@ -86,8 +76,10 @@ int main(void)
     }
 
     tile tilemap[13][13];
-    for (int i = 0; i < 13; i++){
-        for (int j = 0; j < 13; j++){
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 13; j++)
+        {
             tilemap[i][j]._color = colors[ccols[j][i]];
         }
     }
@@ -98,11 +90,13 @@ int main(void)
         screenHeight = GetScreenHeight();
         const int tilesizex = screenWidth / 13;
         const int tilesizey = screenHeight / 13;
-        if(IsKeyPressed(KEY_SPACE)){
-        const int rn = rolldice();
-        for (int i = 0; i < rn; i++){
-            movepawn(&mpawn);
-        }
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            const int rn = rolldice();
+            for (int i = 0; i < rn; i++)
+            {
+                movepawn(&mpawn);
+            }
         }
         // Update
         //----------------------------------------------------------------------------------
@@ -121,10 +115,10 @@ int main(void)
                 DrawRectangle(i * tilesizex + tilesizex / 20, j * tilesizey + tilesizey / 20, (tilesizex * 9) / 10, (tilesizey * 9) / 10, tilemap[i][j]._color);
             }
         }
-        DrawEllipse(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, tilesizex /3, tilesizey/3, mpawn._color);
+        DrawEllipse(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, mpawn._color);
         EndDrawing();
         //----------------------------------------------------------------------------------
-        }
+    }
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
