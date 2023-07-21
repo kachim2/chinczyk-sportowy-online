@@ -3,9 +3,13 @@
 #include <stdint.h>
 #include <float.h>
 #include <limits.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
 #include "ccols.h"
 #include "cpath.h"
-
+#define SERVER_IP "127.0.0.1"
 const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
 
 int32_t NumPlayers = 4;
@@ -50,10 +54,12 @@ void movepawn(pawn *p){
     return;
 }
 int main(void){
-#ifdef __TINYC__
-    TraceLog(LOG_WARNING, "tcc");
-#endif
-    int32_t numofparticles = 100;
+    struct sockaddr_in addr = {0};
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(21376);
+    addr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    connect(sock, (struct sockaddr *)&addr, sizeof(addr));
     irand();
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -124,6 +130,6 @@ int main(void){
     //--------------------------------------------------------------------------------------
     CloseWindow(); // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
-
+    close(sock);
     return 0;
 }
