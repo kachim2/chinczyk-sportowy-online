@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include "ccols.h"
 #include "cpath.h"
+
+
 #define SERVER_IP "127.0.0.1"
 #define PORT 21376
 const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
