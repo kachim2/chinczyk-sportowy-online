@@ -1,4 +1,4 @@
-#ifndef CPATHcpath
+#ifndef CPATH
 #define CPATH
 
     const bool cpath[13][13] = {
