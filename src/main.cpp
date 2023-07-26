@@ -3,16 +3,12 @@
 #include <stdint.h>
 #include <float.h>
 #include <limits.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <unistd.h>
+
 #include "ccols.h"
 #include "cpath.h"
 
 
-#define SERVER_IP "127.0.0.1"
-#define PORT 21376
+
 const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
 
 int32_t NumPlayers = 4;
@@ -57,15 +53,15 @@ void movepawn(pawn *p){
     return;
 }
 int main(void){
-    struct sockaddr_in addr = {0};
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(PORT);
-    addr.sin_addr.s_addr = inet_addr(SERVER_IP);
-    int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    connect(sock, (struct sockaddr *)&addr, sizeof(addr));
-    send(sock, "HA", 2, 0);
-    char buf[2];
-    recv(sock, buf, 2, 0);
+    //struct sockaddr_in addr = {0};
+    //addr.sin_family = AF_INET;
+    //addr.sin_port = htons(PORT);
+    //addr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    //int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    //connect(sock, (struct sockaddr *)&addr, sizeof(addr));
+    //send(sock, "HA", 2, 0);
+    //char buf[2];
+    //recv(sock, buf, 2, 0);
     irand();
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -102,6 +98,7 @@ int main(void){
         screenHeight = GetScreenHeight();
         const int tilesizex = screenWidth / 13;
         const int tilesizey = screenHeight / 13;
+        
         if (IsKeyPressed(KEY_SPACE))
         {
             const int rn = rolldice();
@@ -136,6 +133,6 @@ int main(void){
     //--------------------------------------------------------------------------------------
     CloseWindow(); // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
-    close(sock);
+    //close(sock);
     return 0;
 }
