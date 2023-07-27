@@ -10,8 +10,6 @@ struct netdata{
     std::mutex selecting;
     std::atomic_bool done_main;
 };
-void net(netdata)
-{
-}
+void net(netdata);
 
 #endif
