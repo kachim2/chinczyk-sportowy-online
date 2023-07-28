@@ -72,7 +72,7 @@ int main(void){
 
     SetTargetFPS(60); // Set our game to run at refresh rate
     //--------------------------------------------------------------------------------------
-    const float div = 7;
+    const float div = 7 ;
     // Main game loop
     int32_t positions[4][4];
     for (int32_t i = 0; i < 4; i++)
