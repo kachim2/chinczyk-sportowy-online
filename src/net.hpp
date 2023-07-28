@@ -3,6 +3,7 @@
 #define NET
 #include <mutex>
 #include <atomic>
+#include "shared_net.h"
 struct netdata{
     std::atomic_uint8_t Movement;
     std::atomic_uint8_t MovePlayerId;
