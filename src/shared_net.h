@@ -22,7 +22,11 @@ packeddata packcli(clipack packet){
     data[1] = (uint8_t)packet.GameNum;
 }
 packeddata packsrv(srvpack packet){
-    
+   char data[2] = {0,0};
+   data[0] = (packet.CurrPawnNum << 6) & 0b11000000;
+   data[0] |= (packet.CurrPawnMove << 3) & 0b00111000;
+   data[0] |= (packet.DiceRoll) & 0b00000111;
+   data[1] = (packet.NextPlayerNum << 6);
 }
 clipack unpackcli(packeddata pdata ){
     const char(&data)[2] = pdata.data;
@@ -32,5 +36,13 @@ clipack unpackcli(packeddata pdata ){
     packet.GameNum = 0;
     packet.GameNum |= (data[0] << 8) & 0b0000111100000000;
     packet.GameNum |= data[1];
+    return packet;
 }
-srvpack unpacksrv(packeddata pdata){}
+srvpack unpacksrv(packeddata pdata){
+    srvpack packet;
+    const char* data = pdata.data;
+    packet.CurrPawnNum= (data[0]>>6);
+    packet.CurrPawnMove= (data[0] & 0b00111000) >> 3;
+    packet.DiceRoll=data[0]&0b00000111;
+    return packet;
+}
