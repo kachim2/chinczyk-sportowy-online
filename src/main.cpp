@@ -3,11 +3,11 @@
 #include <stdint.h>
 #include <float.h>
 #include <limits.h>
-
+#include <iostream>
 #include "ccols.h"
 #include "cpath.h"
 
-
+using namespace std;
 
 const Color colors[] = {RED, BLUE, GREEN, YELLOW, VIOLET, BLACK, WHITE, RAYWHITE};
 
@@ -57,6 +57,15 @@ void movepawn(pawn *p, int k){
         movepawnone(p);
     }
 }
+bool ispawnpressed(pawn *p){
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        TraceLog(LOG_INFO, to_string(GetMousePosition().x/13/5).c_str());
+        return true;
+    }else{
+        return false;
+    }
+
+}
 int main(void){
     //struct sockaddr_in addr = {0};
     //addr.sin_family = AF_INET;
@@ -103,22 +112,15 @@ int main(void){
         screenHeight = GetScreenHeight();
         const int tilesizex = screenWidth / 13;
         const int tilesizey = screenHeight / 13;
-        
-        if (IsKeyPressed(KEY_SPACE))
+
+        if (ispawnpressed(&mpawn))
         {
             const int rn = rolldice();
             movepawn(&mpawn, rn);
         }
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
-        // Draw
-        //----------------------------------------------------------------------------------
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        // DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
         for (int i = 0; i < 13; i++)
         {
             for (int j = 0; j < 13; j++)
@@ -128,13 +130,8 @@ int main(void){
         }
         DrawEllipse(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, mpawn._color);
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow(); // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
     //close(sock);
     return 0;
 }
