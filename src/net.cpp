@@ -14,4 +14,27 @@ void net(netdata data)
     addr.sin_addr.s_addr = inet_addr(SERVER_IP);
     int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
     connect(sock, (struct sockaddr *)&addr, sizeof(addr));
+    data.MovePlayerId = 0;
+    while (true){
+        data.done_main = 1;
+        packeddata srvbuf;
+        recv(sock, srvbuf.data, 2, 0);
+        srvpack spacket = unpacksrv(srvbuf);
+        data.MovePlayerId = spacket.WhoAreYou;
+        data.MovePawnId = spacket.CurrPawnNum;
+        data.Movement = spacket.CurrPawnMove;
+        if(spacket.NextPlayerNum==spacket.WhoAreYou){
+            data.selecting = 1;
+        }
+        data.done_main = 0;
+        while(!data.done_main);
+        if(spacket.NextPlayerNum == spacket.WhoAreYou)
+        {
+            clipack cpacket;
+            cpacket.GameNum = data.GameNum;
+            cpacket.PawnNum = data.Selected;
+            cpacket.PlayerNum = spacket.WhoAreYou;
+        }
+        data.MovePlayerId = spacket.NextPlayerNum;
+    }
 }
