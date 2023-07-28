@@ -31,7 +31,7 @@ int rolldice(){
 typedef struct tile{
     Color _color;
 } tile;
-void movepawn(pawn *p){
+void movepawnone(pawn *p){
     const int posiblemoves[4][2] = {
         {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     for (int i = 0; i < 4; i++)
@@ -51,6 +51,11 @@ void movepawn(pawn *p){
         }
     }
     return;
+}
+void movepawn(pawn *p, int k){
+    for(int i = 0; i<k; i++){
+        movepawnone(p);
+    }
 }
 int main(void){
     //struct sockaddr_in addr = {0};
@@ -102,10 +107,7 @@ int main(void){
         if (IsKeyPressed(KEY_SPACE))
         {
             const int rn = rolldice();
-            for (int i = 0; i < rn; i++)
-            {
-                movepawn(&mpawn);
-            }
+            movepawn(&mpawn, rn);
         }
         // Update
         //----------------------------------------------------------------------------------
