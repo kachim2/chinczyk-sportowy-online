@@ -147,8 +147,9 @@ int main(void){
     //--------------------------------------------------------------------------------------
     const float div = 7;
     // Main game loop
-    netdata sdata;
-    //std::thread nett(net, sdata);
+    std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
+    std::thread nett(net, sdata.get());
+    
     pawn pawns[4][4];
     for (int i = 0; i < 4; i++){
         for (int j = 0; j < 4; j++){
@@ -167,7 +168,7 @@ int main(void){
             tilemap[i][j]._color = colors[ccols[j][i]];
         }
     }
-    pawn mpawn = {DARKGREEN, 1, 7, 1, 6};
+    
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         screenWidth = GetScreenWidth();
@@ -175,10 +176,18 @@ int main(void){
         tilesizex = screenWidth / 13;
         tilesizey = screenHeight / 13;
 
-        if (ispawnpressed(&mpawn))
-        {
-            const int rn = rolldice();
-            movepawn(&mpawn, rn, 0);
+        if(sdata->selecting){
+            for (int i = 0; i < 4; i++){
+                if(ispawnpressed(&pawns[sdata->MyPlayerId][i])){
+                sdata->Selected = i;
+                sdata->selecting = 0;
+                break;
+                }
+            }
+        }
+        if(!sdata->done_main){
+            movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
+            sdata->done_main = 1;
         }
         BeginDrawing();
 
@@ -195,7 +204,7 @@ int main(void){
                 DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, pawns[i][j]._color);
             }
         }
-        DrawEllipse(mpawn.x * tilesizex + tilesizex / 2, mpawn.y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, mpawn._color);
+        DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId)).c_str(), 0, 0, 72, BLACK);
         EndDrawing();
     }
     CloseWindow();

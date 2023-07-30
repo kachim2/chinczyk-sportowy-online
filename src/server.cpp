@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "shared_net.h"
 
 #define DESIRED_ADDRESS "127.0.0.1"
 #define DESIRED_PORT 21376
