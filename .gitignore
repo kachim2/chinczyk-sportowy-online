@@ -2,3 +2,4 @@ build
 webbuild
 .vscode
 src/server
+.cache

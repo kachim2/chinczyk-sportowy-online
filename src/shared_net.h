@@ -1,3 +1,6 @@
+
+#ifndef NETS
+#define NETS
 #include <cstdint>
 #include <inttypes.h>
 
@@ -22,6 +25,11 @@ packeddata packcli(clipack packet){
     data[0] |= (packet.PawnNum << 4) & 0b00110000;
     data[0] |= ((uint8_t)(packet.GameNum >> 8)) & 0b00001111;
     data[1] = (uint8_t)packet.GameNum;
+    packeddata d;
+    for (int i = 0; i < 2; i++){
+        d.data[i] = data[i];
+    }
+    return d;
 }
 packeddata packsrv(srvpack packet){
    char data[2] = {0,0};
@@ -30,6 +38,11 @@ packeddata packsrv(srvpack packet){
    data[0] |= (packet.DiceRoll) & 0b00000111;
    data[1] = (packet.NextPlayerNum << 6);
    data[1] |= (packet.WhoAreYou << 4) & 0b00110000;
+   packeddata d;
+    for (int i = 0; i < 2; i++){
+        d.data[i] = data[i];
+    }
+    return d;
 }
 clipack unpackcli(packeddata pdata ){
     const char(&data)[2] = pdata.data;
@@ -51,3 +64,4 @@ srvpack unpacksrv(packeddata pdata){
     packet.WhoAreYou= (data[1]  >> 4) & 0b00001100;
     return packet;
 }
+#endif
