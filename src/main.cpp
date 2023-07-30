@@ -148,7 +148,7 @@ int main(void){
     const float div = 7;
     // Main game loop
     std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
-    std::thread nett(net, sdata.get());
+    std::thread nett(netf, sdata.get());
     
     pawn pawns[4][4];
     for (int i = 0; i < 4; i++){
@@ -201,7 +201,9 @@ int main(void){
         }
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 4; j++){
+                DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 2.5, tilesizey / 2.5, DARKBLUE);
                 DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, pawns[i][j]._color);
+                
             }
         }
         DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId)).c_str(), 0, 0, 72, BLACK);

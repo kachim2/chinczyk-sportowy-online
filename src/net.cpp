@@ -7,7 +7,7 @@
 #define SERVER_IP "127.0.0.1"
 #define PORT 21376
 
-void net(netdata* data)
+void netf(netdata* data)
 {
     struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;

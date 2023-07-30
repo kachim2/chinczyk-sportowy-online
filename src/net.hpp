@@ -15,6 +15,6 @@ struct netdata{
     std::atomic_bool selecting = 0;
     std::atomic_bool done_main = 0;
 };
-void net(netdata data);
+void netf(netdata * data);
 
 #endif
