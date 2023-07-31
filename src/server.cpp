@@ -1,4 +1,6 @@
 #include <arpa/inet.h>
+#include <cstddef>
+#include <cstdlib>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <vector>
@@ -6,15 +8,18 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include "shared_net.h"
-
+#include <iostream>
+#include <time.h>
 #define DESIRED_ADDRESS "127.0.0.1"
 #define DESIRED_PORT 21376
 #define BUFSIZE 2
 int main(){
+    srand(time(NULL));
     struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;
     addr.sin_port = htons(DESIRED_PORT); /*converts short to
                                            short with network byte order*/
+
     addr.sin_addr.s_addr = inet_addr(DESIRED_ADDRESS);
     int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
     bind(sock, (struct sockaddr *)&addr, sizeof(addr));
@@ -23,10 +28,30 @@ int main(){
     std::vector<int>clients;
     for (int i = 0; i < 4; i++)
         clients.push_back(accept(sock, (struct sockaddr *)&addr, &socklen));
-    for (int i = 0; i < clients.size(); i++){
-        send(clients[i], (char *)"He", 2, 0);
-        char buf[BUFSIZE];
-        recv(clients[i], buf, BUFSIZE, 0);
+    std::cerr << "got it";
+    int pn = 0;
+    int sel = 0;
+
+    while (true){
+        int diceroll = (rand()%6)+1;
+        for (int i = 0; i < clients.size(); i++)
+        {
+
+            srvpack spack;
+            spack.CurrPawnMove = spack.DiceRoll;
+            spack.CurrPawnNum = sel;
+            spack.WhoAreYou = i;
+            spack.NextPlayerNum = pn;
+            spack.DiceRoll = diceroll;
+
+            packeddata pdata = packsrv(spack);
+            send(clients[i], pdata.data, 2, 0);
+        }
+        packeddata buf;
+        recv(clients[pn], buf.data, 2, 0);
+        clipack cpack = unpackcli(buf);
+        sel = cpack.PawnNum;
+
     }
     close(sock);
 

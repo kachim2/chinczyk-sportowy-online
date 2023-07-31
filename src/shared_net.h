@@ -7,7 +7,7 @@
 struct srvpack{
     uint8_t CurrPawnNum;
     uint8_t CurrPawnMove;
-    uint8_t DiceRoll;
+    uint8_t DiceRoll=0;
     uint8_t NextPlayerNum;
     uint8_t WhoAreYou;
 };
@@ -61,7 +61,7 @@ srvpack unpacksrv(packeddata pdata){
     packet.CurrPawnMove= (data[0] & 0b00111000) >> 3;
     packet.DiceRoll=data[0]&0b00000111;
     packet.NextPlayerNum = (data[1] >> 6) & 0b00000011;
-    packet.WhoAreYou= (data[1]  >> 4) & 0b00001100;
+    packet.WhoAreYou= (data[1]  >> 4) & 0b00000011;
     return packet;
 }
 #endif

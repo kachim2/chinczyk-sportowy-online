@@ -126,6 +126,7 @@ bool ispawnpressed(pawn *p){
 
 }
 int main(void){
+
     //struct sockaddr_in addr = {0};
     //addr.sin_family = AF_INET;
     //addr.sin_port = htons(PORT);
@@ -168,14 +169,19 @@ int main(void){
             tilemap[i][j]._color = colors[ccols[j][i]];
         }
     }
-    
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
+
         screenWidth = GetScreenWidth();
         screenHeight = GetScreenHeight();
         tilesizex = screenWidth / 13;
         tilesizey = screenHeight / 13;
-
+        bool donemain = sdata->done_main;
+        if (!sdata->done_main)
+        {
+            movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
+            donemain = 1;
+        }
         if(sdata->selecting){
             for (int i = 0; i < 4; i++){
                 if(ispawnpressed(&pawns[sdata->MyPlayerId][i])){
@@ -184,11 +190,9 @@ int main(void){
                 break;
                 }
             }
+            donemain = 0;
         }
-        if(!sdata->done_main){
-            movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
-            sdata->done_main = 1;
-        }
+        sdata->done_main = donemain;
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
@@ -201,7 +205,7 @@ int main(void){
         }
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 4; j++){
-                DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 2.5, tilesizey / 2.5, DARKBLUE);
+                DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 2.5, tilesizey / 2.5, BLACK);
                 DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, pawns[i][j]._color);
                 
             }

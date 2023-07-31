@@ -24,10 +24,14 @@ void netf(netdata* data)
         data->MovePlayerId = spacket.WhoAreYou;
         data->MovePawnId = spacket.CurrPawnNum;
         data->Movement = spacket.CurrPawnMove;
-        if(spacket.NextPlayerNum==spacket.WhoAreYou){
+        data->MyPlayerId = spacket.WhoAreYou;
+        data->DiceRoll = spacket.DiceRoll;
+        if (spacket.NextPlayerNum == spacket.WhoAreYou)
+        {
             data->selecting = 1;
         }
         data->done_main = 0;
+        
         while(!data->done_main);
         if(spacket.NextPlayerNum == spacket.WhoAreYou)
         {
@@ -35,7 +39,10 @@ void netf(netdata* data)
             cpacket.GameNum = data->GameNum;
             cpacket.PawnNum = data->Selected;
             cpacket.PlayerNum = spacket.WhoAreYou;
+            packeddata pdata = packcli(cpacket);
+            send(sock, pdata.data, 2, 0);
         }
         data->MovePlayerId = spacket.NextPlayerNum;
+        
     }
 }
