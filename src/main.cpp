@@ -141,9 +141,9 @@ int main(void){
     //--------------------------------------------------------------------------------------
     int32_t screenWidth = 800;
     int32_t screenHeight = 800;
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
+    
     SetTargetFPS(60); // Set our game to run at refresh rate
     //--------------------------------------------------------------------------------------
     const float div = 7;
