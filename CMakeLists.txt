@@ -27,7 +27,7 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example g
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
 #set(SUPPORT_PARTIALBUSY_WAIT_LOOP OFF CACHE BOOL "" FORCE)
 set(FETCHCONTENT_QUIET FALSE)
-FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master GIT_PROGRESS TRUE)
+FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/kachim2/raylib.git GIT_TAG master GIT_PROGRESS TRUE)
 FetchContent_MakeAvailable(raylib)
 add_executable(${outname} src/main.cpp src/net.cpp)
 add_executable(server src/server.cpp)
