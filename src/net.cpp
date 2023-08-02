@@ -16,23 +16,26 @@ void netf(netdata* data)
     int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
     connect(sock, (struct sockaddr *)&addr, sizeof(addr));
     data->MovePlayerId = 0;
-    while (true){
+    int next = 0;
+    while (true)
+    {
         data->done_main = 1;
         packeddata srvbuf;
         recv(sock, srvbuf.data, 2, 0);
         srvpack spacket = unpacksrv(srvbuf);
-        data->MovePlayerId = spacket.WhoAreYou;
+        data->MovePlayerId = next;
         data->MovePawnId = spacket.CurrPawnNum;
         data->Movement = spacket.CurrPawnMove;
         data->MyPlayerId = spacket.WhoAreYou;
         data->DiceRoll = spacket.DiceRoll;
+        next = spacket.NextPlayerNum;
         if (spacket.NextPlayerNum == spacket.WhoAreYou)
         {
             data->selecting = 1;
         }
         data->done_main = 0;
         
-        while(!data->done_main);
+        while(!data->done_main || data->selecting == 1);
         if(spacket.NextPlayerNum == spacket.WhoAreYou)
         {
             clipack cpacket;
@@ -43,6 +46,5 @@ void netf(netdata* data)
             send(sock, pdata.data, 2, 0);
         }
         data->MovePlayerId = spacket.NextPlayerNum;
-        
     }
 }

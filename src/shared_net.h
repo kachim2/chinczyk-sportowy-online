@@ -17,7 +17,7 @@ struct clipack{
     uint16_t GameNum;
 };
 struct packeddata{
-    char data[2];
+    char data[2] = {0,0};
 };
 packeddata packcli(clipack packet){
     char data[2] = {0,0};

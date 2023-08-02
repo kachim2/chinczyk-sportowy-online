@@ -31,27 +31,30 @@ int main(){
     std::cerr << "got it";
     int pn = 0;
     int sel = 0;
-
-    while (true){
+    int move = 0;
+    while (true)
+    {
         int diceroll = (rand()%6)+1;
         for (int i = 0; i < clients.size(); i++)
         {
 
             srvpack spack;
-            spack.CurrPawnMove = spack.DiceRoll;
+            spack.CurrPawnMove = move;
             spack.CurrPawnNum = sel;
             spack.WhoAreYou = i;
             spack.NextPlayerNum = pn;
             spack.DiceRoll = diceroll;
-
+            move = diceroll;
             packeddata pdata = packsrv(spack);
             send(clients[i], pdata.data, 2, 0);
         }
+        
         packeddata buf;
         recv(clients[pn], buf.data, 2, 0);
         clipack cpack = unpackcli(buf);
         sel = cpack.PawnNum;
-
+        pn++;
+        pn %= 3;
     }
     close(sock);
 

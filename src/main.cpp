@@ -87,7 +87,7 @@ void movepawnone(pawn *p){
     return;
 }
 void movepawn(pawn *p, int k, unsigned char a){
-    if(!p->inplay && k!=0){
+    if(p->inplay == 0 && k!=0){
         p->x = spos[a][0][0];
         p->y = spos[a][0][1];
         p->px = spos[a][1][0];
@@ -158,7 +158,7 @@ int main(void){
             pawns[i][j].inplay = 0;
             pawns[i][j].x = bpos[i][0] + (j) % 2;
             pawns[i][j].y = bpos[i][1] + (j) / 2;
-            pawns[i][j]._color = BLACK;
+            pawns[i][j]._color = colors[i];
         }
     }
     tile tilemap[13][13];
@@ -176,11 +176,11 @@ int main(void){
         screenHeight = GetScreenHeight();
         tilesizex = screenWidth / 13;
         tilesizey = screenHeight / 13;
-        bool donemain = sdata->done_main;
+        
         if (!sdata->done_main)
         {
             movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
-            donemain = 1;
+            sdata->done_main = 1;
         }
         if(sdata->selecting){
             for (int i = 0; i < 4; i++){
@@ -190,9 +190,9 @@ int main(void){
                 break;
                 }
             }
-            donemain = 0;
+
         }
-        sdata->done_main = donemain;
+        
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
