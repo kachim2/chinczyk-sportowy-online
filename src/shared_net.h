@@ -5,16 +5,16 @@
 #include <inttypes.h>
 
 struct srvpack{
-    uint8_t CurrPawnNum;
-    uint8_t CurrPawnMove;
+    uint8_t CurrPawnNum = 0;
+    uint8_t CurrPawnMove=0;
     uint8_t DiceRoll=0;
-    uint8_t NextPlayerNum;
+    uint8_t NextPlayerNum = 0;
     uint8_t WhoAreYou;
 };
 struct clipack{
-    uint8_t PlayerNum;
-    uint8_t PawnNum;
-    uint16_t GameNum;
+    uint8_t PlayerNum = 0;
+    uint8_t PawnNum = 0;
+    uint16_t GameNum = 0;
 };
 struct packeddata{
     char data[2] = {0,0};
