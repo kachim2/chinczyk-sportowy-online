@@ -57,11 +57,11 @@ clipack unpackcli(packeddata pdata ){
 srvpack unpacksrv(packeddata pdata){
     srvpack packet;
     const char* data = pdata.data;
-    packet.CurrPawnNum= (data[0]>>6);
-    packet.CurrPawnMove= (data[0] & 0b00111000) >> 3;
-    packet.DiceRoll=data[0]&0b00000111;
+    packet.CurrPawnNum= (data[0]>>6)      & 0b00000011;
+    packet.CurrPawnMove= (data[0] >> 3)   & 0b00000111 ;
+    packet.DiceRoll=data[0]               & 0b00000111;
     packet.NextPlayerNum = (data[1] >> 6) & 0b00000011;
-    packet.WhoAreYou= (data[1]  >> 4) & 0b00000011;
+    packet.WhoAreYou= (data[1]  >> 4)     & 0b00000011;
     return packet;
 }
 #endif

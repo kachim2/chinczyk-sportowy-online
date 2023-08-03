@@ -13,7 +13,7 @@ struct netdata{
     std::atomic_uint8_t Selected = 0;
     std::atomic_uint8_t GameNum = 0;
     std::atomic_bool selecting = 0;
-    std::atomic_bool done_main = 0;
+    std::atomic_bool done_main = 1;
 };
 void netf(netdata * data);
 
