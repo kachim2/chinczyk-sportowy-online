@@ -18,15 +18,16 @@ if (EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_ARGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -sPROXY_TO_PTHREAD -sPTHREAD_POOL_SIZE=2 -pthread --std=c++14 -s ASYNCIFY")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -sPROXY_TO_PTHREAD -sPTHREAD_POOL_SIZE=2 ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -pthread -sPROXY_TO_PTHREAD -sPTHREAD_POOL_SIZE=2 ")
-    #set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
-    configure_file(${CMAKE_SOURCE_DIR}/html/shell.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -sPROXY_TO_PTHREAD -sPTHREAD_POOL_SIZE=2 ")
+    set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
+    #configure_file(${CMAKE_SOURCE_DIR}/html/shell.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
     set (outname index)
 endif ()
 include(FetchContent)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example games
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
+set(CUSTOMIZE_BUILD on CACHE BOOL "" FORCE)
 #set(SUPPORT_PARTIALBUSY_WAIT_LOOP OFF CACHE BOOL "" FORCE)
 set(FETCHCONTENT_QUIET FALSE)
 FetchContent_Declare(raylib GIT_REPOSITORY https://github.com/kachim2/raylib.git GIT_TAG master GIT_PROGRESS TRUE)
