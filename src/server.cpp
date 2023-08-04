@@ -71,7 +71,7 @@ int main()
         clipack cpack = unpackcli(buf);
         sel = cpack.PawnNum;
         if (diceroll != 6 &&
-            (inplays[pn][sel] == 0) &&
+            (inplays[pn][sel] == 0) ||
             ((pos[pn][sel] - pn * 10) + diceroll > poslimit))
         {
 
