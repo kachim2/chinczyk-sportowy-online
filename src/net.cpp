@@ -3,8 +3,9 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <iostream>
 #include "shared_net.h"
-#define SERVER_IP "130.61.226.238"
+#define SERVER_IP "192.168.0.11"
 #define PORT 21376
 
 void netf(netdata* data)
@@ -31,6 +32,7 @@ void netf(netdata* data)
         next = spacket.NextPlayerNum;
         if (spacket.NextPlayerNum == spacket.WhoAreYou)
         {
+            std::cout << "HMM";
             data->selecting = 1;
         }
         data->done_main = 0;
