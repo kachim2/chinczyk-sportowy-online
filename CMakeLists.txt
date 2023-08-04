@@ -21,7 +21,6 @@ if (EMSCRIPTEN)
     set (outname index)
 endif ()
 include(FetchContent)
-set(OPENGL_VERSION 4.3 CACHE BOOL "" FORCE)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example games
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
