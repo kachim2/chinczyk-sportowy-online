@@ -10,7 +10,7 @@
 #include "shared_net.h"
 #include <iostream>
 #include <time.h>
-#define DESIRED_ADDRESS "127.0.0.1"
+#define DESIRED_ADDRESS "0.0.0.0"
 #define DESIRED_PORT 21376
 #define BUFSIZE 2
 int main()
