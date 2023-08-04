@@ -141,7 +141,7 @@ int main(void){
     //--------------------------------------------------------------------------------------
     int32_t screenWidth = 800;
     int32_t screenHeight = 800;
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_16X_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT );
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     
     SetTargetFPS(60); // Set our game to run at refresh rate
@@ -210,7 +210,7 @@ int main(void){
                 
             }
         }
-        DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId)).c_str(), 0, 0, 72, BLACK);
+        DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId+1) + "    " + to_string(sdata->selecting)).c_str() , 0, 0, 72, BLACK);
         EndDrawing();
     }
     CloseWindow();
