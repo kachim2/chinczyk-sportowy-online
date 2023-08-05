@@ -6,6 +6,14 @@
 #include <iostream>
 #include <memory>
 #include <netdb.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/websocket.h>
+#include <emscripten/threading.h>
+#include <emscripten/posix_socket.h>
+
+static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
+#endif
 #include "shared_net.h"
 #define SERVER_IP "sq2ips.ddns.net"
 #define PORTC "21376"
@@ -13,6 +21,15 @@
 
 void netf(netdata* data)
 {
+    #ifdef __EMSCRIPTEN__
+    bridgeSocket = emscripten_init_websocket_to_posix_socket_bridge("ws://sq2ips.ddns.net:21375");
+    // Synchronously wait until connection has been established.
+    uint16_t readyState = 0;
+    do {
+    emscripten_websocket_get_ready_state(bridgeSocket, &readyState);
+    emscripten_thread_sleep(100);
+    } while (readyState == 0);
+    #endif
     struct addrinfo *result;
 
     getaddrinfo(SERVER_IP, PORTC, NULL, &result);
