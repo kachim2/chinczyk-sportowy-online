@@ -22,7 +22,7 @@ static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
 void netf(netdata* data)
 {
     #ifdef __EMSCRIPTEN__
-    bridgeSocket = emscripten_init_websocket_to_posix_socket_bridge("ws://sq2ips.ddns.net:21375");
+    bridgeSocket = emscripten_init_websocket_to_posix_socket_bridge("wss://sq2ips.ddns.net:21375");
     // Synchronously wait until connection has been established.
     uint16_t readyState = 0;
     do {
