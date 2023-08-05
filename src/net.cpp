@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "shared_net.h"
-#define SERVER_IP "192.168.0.11"
+#define SERVER_IP "192.168.8.103"
 #define PORT 21376
 
 void netf(netdata* data)
