@@ -98,8 +98,18 @@ int main()
             inplays[pn][sel] = 1;
             pos[pn][sel] += move;
             move = diceroll;
-
-            pn++;
+            for (int i = 0; i < 4; i++){
+                for (int j = 0; j < 4; j++){
+                    if((i!= pn) && (j != sel)){
+                        if(pos[i][j] % 40 == pos[pn][sel]%40)
+                        {
+                            pos[i][j] = i * 10;
+                            inplays[i][j] = 0;
+                        }
+                    }
+                }
+            }
+                pn++;
             pn %= 4;
         }
     }

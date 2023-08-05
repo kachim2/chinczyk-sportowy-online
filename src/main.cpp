@@ -101,7 +101,7 @@ void movepawn(pawn *p, int k, unsigned char a){
 }
 void sendback(pawn pawns[4][4], int pr, int pa){
     for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; i++){
+        for (int j = 0; j < 4; j++){
         if(i == pr && j == pa) continue;
         else
         if(pawns[i][j].x == pawns[pr][pa].x && pawns[i][j].y == pawns[pr][pa].y)
@@ -180,6 +180,7 @@ int main(void){
         if (!sdata->done_main)
         {
             movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
+            sendback(pawns, sdata->MovePlayerId, sdata->MovePawnId);
             sdata->done_main = 1;
         }
         if(sdata->selecting){
