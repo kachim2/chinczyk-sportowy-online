@@ -21,7 +21,7 @@ if (EMSCRIPTEN)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread ")
     set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
     #configure_file(${CMAKE_SOURCE_DIR}/html/shell.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
-    set (outname index)
+    set (outname chonline)
 endif ()
 include(FetchContent)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
