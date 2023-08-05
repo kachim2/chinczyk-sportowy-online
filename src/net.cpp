@@ -4,18 +4,23 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <iostream>
+#include <memory>
+#include <netdb.h>
 #include "shared_net.h"
-#define SERVER_IP "192.168.8.103"
+#define SERVER_IP "sq2ips.ddns.net"
+#define PORTC "21376"
 #define PORT 21376
 
 void netf(netdata* data)
 {
-    struct sockaddr_in addr = {0};
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(PORT);
-    addr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    struct addrinfo *result;
+
+    getaddrinfo(SERVER_IP, PORTC, NULL, &result);
+    
+    struct sockaddr addr = *result->ai_addr;
+    freeaddrinfo(result);
     int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    connect(sock, (struct sockaddr *)&addr, sizeof(addr));
+    connect(sock, &addr, sizeof(addr));
     data->MovePlayerId = 0;
     int next = 0;
     while (true)
