@@ -21,6 +21,7 @@ if (EMSCRIPTEN)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
     set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
     #configure_file(${CMAKE_SOURCE_DIR}/html/shell.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
+    onfigure_file(${CMAKE_SOURCE_DIR}/4deploy/staticwebapp.config.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/staticwebapp.config.json COPYONLY)
     set (outname chonline)
 endif ()
 include(FetchContent)
