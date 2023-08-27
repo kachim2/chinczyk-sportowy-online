@@ -15,7 +15,7 @@
 static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
 #endif
 #include "shared_net.h"
-#define SERVER_IP "localhost"
+#define SERVER_IP "130.61.62.195"
 #define PORTC "21376"
 #define PORT 21376
 
