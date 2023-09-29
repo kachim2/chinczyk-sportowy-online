@@ -127,16 +127,8 @@ bool ispawnpressed(pawn *p){
 }
 int main(void){
 
-    
-    //struct sockaddr_in addr = {0};
-    //addr.sin_family = AF_INET;
-    //addr.sin_port = htons(PORT);
-    //addr.sin_addr.s_addr = inet_addr(SERVER_IP);
-    //int sock = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    //connect(sock, (struct sockaddr *)&addr, sizeof(addr));
-    //send(sock, "HA", 2, 0);
-    //char buf[2];
-    //recv(sock, buf, 2, 0);
+
+
     irand();
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -150,7 +142,7 @@ int main(void){
     const float div = 7;
     // Main game loop
     std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
-    std::thread nett(netf, sdata.get());
+    net_init(sdata.get());
     
     pawn pawns[4][4];
     for (int i = 0; i < 4; i++){
@@ -189,6 +181,7 @@ int main(void){
                 if(ispawnpressed(&pawns[sdata->MyPlayerId][i])){
                 sdata->Selected = i;
                 sdata->selecting = 0;
+                net_send(sdata.get());
                 break;
                 }
             }
@@ -214,6 +207,9 @@ int main(void){
         }
         DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId+1) + "    " + to_string(sdata->selecting)).c_str() , 0, 0, 72, BLACK);
         EndDrawing();
+        if(net_ready(sdata.get())){
+            net_rec(sdata.get());
+        }
     }
     CloseWindow();
     //close(sock);
