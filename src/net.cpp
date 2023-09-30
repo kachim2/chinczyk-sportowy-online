@@ -89,15 +89,15 @@ void net_send(netdata* data) {
 #else
 
 
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <fcntl.h>
-#include <unistd.h>
+//#include <arpa/inet.h>
+//#include <netinet/in.h>
+//#include <sys/socket.h>
+//#include <fcntl.h>
+//#include <unistd.h>
 #include <iostream>
 #include <memory>
-#include <netdb.h>
-#include <sys/ioctl.h>
+//#include <netdb.h>
+//#include <sys/ioctl.h>
 //#ifdef __EMSCRIPTEN__
 //#include <emscripten.h>
 /*#include <emscripten/websocket.h>
