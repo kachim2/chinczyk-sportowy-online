@@ -187,27 +187,5 @@ void net_send(netdata* data) {
     packeddata pdata = packcli(cpacket);
     data->socket.send(pdata.data, 2);
 }
-    /*
-void netf(netdata* data)
-{
 
-    //struct addrinfo *result;
-
-    //getaddrinfo(SERVER_IP, PORTC, NULL, &result);
-
-
-
-    while (true)
-    {
-
-
-        while(!data->done_main || data->selecting == 1);
-        if(spacket.NextPlayerNum == spacket.WhoAreYou)
-        {
-
-        }
-
-    }
-}
-*/
 #endif
