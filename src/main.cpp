@@ -212,6 +212,7 @@ int main(int argc, char *argv[]){
             net_rec(sdata.get());
         }
     }
+    net_quit(sdata.get());
     CloseWindow();
     //close(sock);
     return 0;

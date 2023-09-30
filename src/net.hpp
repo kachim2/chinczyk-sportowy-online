@@ -32,4 +32,5 @@ void net_init(netdata * data);
 void net_send(netdata * data);
 void net_rec(netdata * data);
 bool net_ready(netdata * data);
+void net_quit(netdata * data);
 #endif

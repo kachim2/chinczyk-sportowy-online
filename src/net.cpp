@@ -73,7 +73,10 @@ void net_rec(netdata* data){
     }
     data->done_main = 0;
 }
-
+void net_quit(netdata* data){
+    unsigned char d[2] = {255, 255};
+    send(data->sock, data, 2, 0);
+}
 void net_send(netdata* data) {
     clipack cpacket;
     cpacket.GameNum = data->GameNum;
@@ -134,6 +137,10 @@ bool net_ready(netdata* data){
 //    return (data->socket.receive(&d, 0, r) == (sf::Socket::Done || sf::Socket::Disconnected));
 data->selector.wait(sf::microseconds(10));
     return data->selector.isReady(data->socket);
+}
+void net_quit(netdata* data){
+    unsigned char d[2] = {255, 255};
+    data->socket.send(data, 2);
 }
 void net_rec(netdata* data){
     data->MovePlayerId = data->next;
