@@ -19,7 +19,7 @@ struct clipack{
 struct packeddata{
     char data[2] = {0,0};
 };
-packeddata packcli(clipack packet){
+static inline packeddata packcli(clipack packet){
     char data[2] = {0,0};
     data[0] = (packet.PlayerNum << 6);
     data[0] |= (packet.PawnNum << 4) & 0b00110000;
@@ -31,7 +31,7 @@ packeddata packcli(clipack packet){
     }
     return d;
 }
-packeddata packsrv(srvpack packet){
+static inline packeddata packsrv(srvpack packet){
    char data[2] = {0,0};
    data[0] = (packet.CurrPawnNum << 6) & 0b11000000;
    data[0] |= (packet.CurrPawnMove << 3) & 0b00111000;
@@ -44,7 +44,7 @@ packeddata packsrv(srvpack packet){
     }
     return d;
 }
-clipack unpackcli(packeddata pdata ){
+static inline clipack unpackcli(packeddata pdata ){
     const char(&data)[2] = pdata.data;
     clipack packet;
     packet.PlayerNum = (data[0] >> 6);
@@ -54,7 +54,7 @@ clipack unpackcli(packeddata pdata ){
     packet.GameNum |= data[1];
     return packet;
 }
-srvpack unpacksrv(packeddata pdata){
+static inline srvpack unpacksrv(packeddata pdata){
     srvpack packet;
     const char* data = pdata.data;
     packet.CurrPawnNum= (data[0]>>6)      & 0b00000011;

@@ -4,7 +4,7 @@
 #include <float.h>
 #include <limits.h>
 #include <iostream>
-#include <thread>
+#include <memory>
 #include "ccols.h"
 #include "cpath.h"
 #include "net.hpp"
@@ -125,7 +125,7 @@ bool ispawnpressed(pawn *p){
     }
 
 }
-int main(void){
+int main(int argc, char *argv[]){
 
 
 
@@ -134,7 +134,7 @@ int main(void){
     //--------------------------------------------------------------------------------------
     int32_t screenWidth = 800;
     int32_t screenHeight = 800;
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_16X_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     
     SetTargetFPS(60); // Set our game to run at refresh rate
@@ -143,7 +143,7 @@ int main(void){
     // Main game loop
     std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
     net_init(sdata.get());
-    
+    sdata->GameNum = atoi(argv[1]);
     pawn pawns[4][4];
     for (int i = 0; i < 4; i++){
         for (int j = 0; j < 4; j++){
@@ -187,7 +187,7 @@ int main(void){
             }
 
         }
-        
+
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
