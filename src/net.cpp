@@ -20,7 +20,7 @@ static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
 #endif*/
 
 #include "shared_net.h"
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "130.61.62.195"
 #define PORTC "21376"
 #define PORT 21376
 void net_init(netdata* data){
@@ -104,7 +104,7 @@ void net_send(netdata* data) {
 static EMSCRIPTEN_WEBSOCKET_T bridgeSocket = 0;
 #endif*/
 #include "shared_net.h"
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "130.61.62.195"
 #define PORTC "21376"
 #define PORT 21376
 void net_init(netdata* data){
@@ -124,23 +124,25 @@ void net_init(netdata* data){
     data->selector.add(data->socket);
     data->next = 0;
     data->MovePlayerId = 0;
-    data->socket.setBlocking(false);
+    data->socket.setBlocking(true);
 }
 
 bool net_ready(netdata* data){
 
-    char d;
-    size_t r;
-    return (data->socket.receive(&d, 0, r) == sf::Socket::Done);
+//    char d;
+//    size_t r;
+//    return (data->socket.receive(&d, 0, r) == (sf::Socket::Done || sf::Socket::Disconnected));
+data->selector.wait(sf::microseconds(10));
+    return data->selector.isReady(data->socket);
 }
 void net_rec(netdata* data){
     data->MovePlayerId = data->next;
     packeddata srvbuf;
     //fcntl(data->sock, F_SETFL, fcntl(data->sock, F_GETFL, 0) | O_NONBLOCK;
     std::size_t recieved;
-    data->socket.setBlocking(true);
+
     data->socket.receive(srvbuf.data, 2, recieved);
-    data->socket.setBlocking(false);
+
     //fcntl(data->sock, F_SETFL, fcntl(data->sock, F_GETFL, 0) | O_NONBLOCK);
     srvpack spacket = unpacksrv(srvbuf);
     data->MovePlayerId = data->next;
