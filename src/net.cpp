@@ -81,7 +81,7 @@ void net_send(netdata* data) {
     clipack cpacket;
     cpacket.GameNum = data->GameNum;
     cpacket.PawnNum = data->Selected;
-    cpacket.PlayerNum = data->MyPlayerId;
+    cpacket.PlayerNum = 0;
     packeddata pdata = packcli(cpacket);
     send(data->sock, pdata.data, 2, 0);
 }
@@ -170,7 +170,7 @@ void net_send(netdata* data) {
     clipack cpacket;
     cpacket.GameNum = data->GameNum;
     cpacket.PawnNum = data->Selected;
-    cpacket.PlayerNum = data->MyPlayerId;
+    cpacket.PlayerNum = 0;
     packeddata pdata = packcli(cpacket);
     data->socket.send(pdata.data, 2);
 }
