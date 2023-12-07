@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+#include "raylib.h"
+#include "raymath.h"
+#include <stdint.h>
+#include <float.h>
+#include <limits.h>
+#include <iostream>
+#include <memory>
+>>>>>>> 41511e632694a91f6b88e479a1908d73c4112f92
 #include "ccols.h"
 #include "cpath.h"
 #include "net.hpp"
@@ -172,6 +182,7 @@ int main(void) {
       }
     }
 
+<<<<<<< HEAD
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
@@ -202,4 +213,98 @@ int main(void) {
   CloseWindow();
   // close(sock);
   return 0;
+=======
+}
+int main(int argc, char *argv[]){
+
+
+
+    irand();
+    // Initialization
+    //--------------------------------------------------------------------------------------
+    int32_t screenWidth = 800;
+    int32_t screenHeight = 800;
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
+    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    
+    SetTargetFPS(60); // Set our game to run at refresh rate
+    //--------------------------------------------------------------------------------------
+    const float div = 7;
+    // Main game loop
+    std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
+    net_init(sdata.get());
+    if(argc > 1)
+    sdata->GameNum = atoi(argv[1]);
+    pawn pawns[4][4];
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            pawns[i][j].place = 0;
+            pawns[i][j].inplay = 0;
+            pawns[i][j].x = bpos[i][0] + (j) % 2;
+            pawns[i][j].y = bpos[i][1] + (j) / 2;
+            pawns[i][j]._color = colors[i];
+        }
+    }
+    tile tilemap[13][13];
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 13; j++)
+        {
+            tilemap[i][j]._color = colors[ccols[j][i]];
+        }
+    }
+    while (!WindowShouldClose()) // Detect window close button or ESC key
+    {
+
+        screenWidth = GetScreenWidth();
+        screenHeight = GetScreenHeight();
+        tilesizex = screenWidth / 13;
+        tilesizey = screenHeight / 13;
+        
+        if (!sdata->done_main)
+        {
+            movepawn(&pawns[sdata->MovePlayerId][sdata->MovePawnId], sdata->Movement, sdata->MovePlayerId);
+            sendback(pawns, sdata->MovePlayerId, sdata->MovePawnId);
+            sdata->done_main = 1;
+        }
+        if(sdata->selecting){
+            for (int i = 0; i < 4; i++){
+                if(ispawnpressed(&pawns[sdata->MyPlayerId][i])){
+                sdata->Selected = i;
+                sdata->selecting = 0;
+                net_send(sdata.get());
+                break;
+                }
+            }
+
+        }
+
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+        for (int i = 0; i < 13; i++)
+        {
+            for (int j = 0; j < 13; j++)
+            {
+                DrawRectangle(i * tilesizex + tilesizex / 20, j * tilesizey + tilesizey / 20, (tilesizex * 9) / 10, (tilesizey * 9) / 10, tilemap[i][j]._color);
+            }
+        }
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < 4; j++){
+                DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 2.5, tilesizey / 2.5, BLACK);
+                DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, pawns[i][j]._color);
+                
+            }
+        }
+        DrawText((to_string(sdata->DiceRoll) + "    "+ to_string(sdata->MyPlayerId+1) + "    " + to_string(sdata->selecting)).c_str() , 0, 0, 72, BLACK);
+        EndDrawing();
+        if(net_ready(sdata.get())){
+            net_rec(sdata.get());
+        }
+    }
+    net_quit(sdata.get());
+    CloseWindow();
+    //close(sock);
+    return 0;
+>>>>>>> 41511e632694a91f6b88e479a1908d73c4112f92
 }
