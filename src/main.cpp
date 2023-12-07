@@ -7,8 +7,6 @@
 #include <limits.h>
 #include <iostream>
 #include <memory>
-=======
->>>>>>> 66ed9b1 (smth idk what?)
 >>>>>>> 41511e632694a91f6b88e479a1908d73c4112f92
 #include "ccols.h"
 #include "cpath.h"
