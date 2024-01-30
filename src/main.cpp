@@ -38,9 +38,9 @@ void irand(){
 }
 
 typedef struct pawn{
-    Color _color;
-    int x, y;
-    int px, py;
+    Color _color{ 0 };
+    int x = 0, y = 0;
+    int px = 0, py = 0;
     int place = 0;
     bool inplay = 0;
 } pawn;

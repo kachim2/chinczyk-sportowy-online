@@ -19,7 +19,7 @@ struct netdata{
     bool selecting = 0;
     bool done_main = 1;
 
-    int next;
+    int next = 0;
 #ifndef USE_SFML
     int sock;
 #else
