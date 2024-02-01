@@ -8,12 +8,13 @@
 void net_init(netdata* data){
 
 
-    data->socket;
+
     data->socket.connect(SERVER_IP, PORT);
     data->selector.add(data->socket);
     data->next = 0;
     data->MovePlayerId = 0;
     data->socket.setBlocking(true);
+    net_send(data);
 }
 
 bool net_ready(netdata* data){
