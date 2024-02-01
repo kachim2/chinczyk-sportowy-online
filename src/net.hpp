@@ -4,10 +4,7 @@
 
 #include <mutex>
 #include <atomic>
-
-#ifdef USE_SFML
 #include <SFML/Network.hpp>
-#endif
 struct netdata{
     uint8_t Movement = 0;
     uint8_t MovePlayerId = 0;
@@ -20,12 +17,10 @@ struct netdata{
     bool done_main = 1;
 
     int next = 0;
-#ifndef USE_SFML
-    int sock;
-#else
+
     sf::SocketSelector selector;
     sf::TcpSocket socket;
-#endif
+
 };
 void netf(netdata * data);
 void net_init(netdata * data);
