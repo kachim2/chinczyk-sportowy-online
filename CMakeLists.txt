@@ -53,4 +53,4 @@ target_include_directories(${outname} PRIVATE include)
 target_link_libraries(${outname} PRIVATE raylib)
 target_link_libraries(${outname} PRIVATE sfml-network)
 
-#target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
