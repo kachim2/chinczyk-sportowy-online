@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
   const float div = 7;
   // Main game loop
   std::unique_ptr<netdata> sdata = std::make_unique<netdata>();
-  net_init(sdata.get());
+  
   if (argc > 1)
   {
     sdata->GameNum = atoi(argv[1]);
@@ -158,7 +158,9 @@ int main(int argc, char *argv[])
   {
     std::cout << "Insert Game Number:";
     std::cin >> sdata->GameNum;
+    std::cout << sdata->GameNum;
   }
+  net_init(sdata.get());
   pawn pawns[4][4];
   for (int i = 0; i < 4; i++)
   {
