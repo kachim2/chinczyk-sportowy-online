@@ -26,7 +26,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install libxi-dev libxinerama-dev libxkbcommon-dev libwayland-dev wayland-scanner++ libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configure
       shell: bash
@@ -40,7 +40,7 @@ jobs:
       shell: bash
       run: cmake --install build --config Release
     - name: Upload build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
         path: ./build/bin/
