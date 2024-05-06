@@ -15,7 +15,7 @@ jobs:
         - { name: Windows VS2022, os: windows-2022  }
         - { name: Linux GCC,      os: ubuntu-latest }
         - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS,          os: macos-latest  }
+        - { name: MacOS XCode,    os: macos-latest  }
         config:
         - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
         - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
@@ -23,7 +23,7 @@ jobs:
     steps:
     - name: Install Linux Dependencies
       if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+      run: sudo apt-get update && sudo apt-get install  wayland-scanner++ libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -34,8 +34,13 @@ jobs:
 
     - name: Build
       shell: bash
-      run: cmake --build build --config Release
+      run: cmake --build build --config Release 
 
     - name: Install
       shell: bash
       run: cmake --install build --config Release
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
+        path: ./build/bin/
