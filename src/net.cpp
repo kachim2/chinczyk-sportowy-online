@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 #include "shared_net.h"
-#define SERVER_IP "138.2.154.189"
+#define SERVER_IP "kachim2.pl.eu.org"
 #define PORTC "21376"
 #define PORT 21376
 void net_init(netdata* data){
