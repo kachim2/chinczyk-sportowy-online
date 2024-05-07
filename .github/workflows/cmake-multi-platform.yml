@@ -6,6 +6,8 @@ jobs:
   build:
     name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
     runs-on: ${{ matrix.platform.os }}
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
