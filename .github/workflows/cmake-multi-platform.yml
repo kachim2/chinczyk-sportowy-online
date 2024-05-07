@@ -36,7 +36,9 @@ jobs:
     - name: Build
       shell: bash
       run: cmake --build build --config Release 
-
+    - name: Create zip
+      shell: bash
+      run: tar acvf "${{ matrix.platform.name }} ${{ matrix.config.name }}.zip" ./build/bin
     - name: Install
       shell: bash
       run: cmake --install build --config Release
