@@ -38,3 +38,19 @@ jobs:
     - name: Install
       shell: bash
       run: cmake --install build --config Release
+    - name: Create zip
+      shell: bash
+      run: zip "${{ matrix.platform.name }} ${{ matrix.config.name }}" ./build/bin
+    - name: Upload build
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
+        path: ./build/bin/
+    - name: Upload releases
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: "*.zip"
