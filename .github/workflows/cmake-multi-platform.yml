@@ -50,8 +50,8 @@ jobs:
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
-        overwrite: true
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: "${{ matrix.platform.name }} ${{ matrix.config.name }}.zip"
         asset_name: ${{ matrix.asset_name }}
         tag: ${{ github.ref }}
+        overwrite: true
