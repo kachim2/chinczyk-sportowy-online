@@ -183,8 +183,8 @@ int main(int argc, char *argv[])
 	         BeginDrawing();
 
             ClearBackground(RAYWHITE);
-	    DrawText("Podaj Numer Gry:", (GetScreenWidth()-MeasureText("Podaj Numer Gry", 50))/2, 300, 50, BLACK);	
-	    DrawText(input.c_str(), (GetScreenWidth()-MeasureText(input.c_str(), 50))/2, 400, 50, BLACK);
+	    DrawText("Podaj Numer Gry:", (GetScreenWidth()-MeasureText("Podaj Numer Gry", 50))/2, GetScreenHeight()/2-100, 50, BLACK);	
+	    DrawText(input.c_str(), (GetScreenWidth()-MeasureText(input.c_str(), 50))/2, GetScreenHeight()/2, 50, BLACK);
 	    EndDrawing();
     }
   }
@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
         DrawEllipse(pawns[i][j].x * tilesizex + tilesizex / 2, pawns[i][j].y * tilesizey + tilesizey / 2, tilesizex / 3, tilesizey / 3, pawns[i][j]._color);
       }
     }
-    DrawText((to_string(sdata->DiceRoll) + "    " + to_string(sdata->MyPlayerId + 1) + "    " + to_string(sdata->selecting)).c_str(), 0, 0, 72, BLACK);
+    DrawText((to_string(sdata->DiceRoll) + "    " + to_string(sdata->MyPlayerId + 1) + "    " + (sdata->selecting ? "Twoja Kolej" : "")).c_str(), 0, 0, 72, BLACK);
     EndDrawing();
     if (net_ready(sdata.get()))
     {
