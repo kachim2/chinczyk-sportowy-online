@@ -36,15 +36,12 @@ jobs:
     - name: Build
       shell: bash
       run: cmake --build build --config Release 
-    - name: Create zip
-      shell: bash
-      run: tar acvf "${{ matrix.platform.name }} ${{ matrix.config.name }}.zip"  ./build/bin/*
     - name: Install
       shell: bash
       run: cmake --install build --config Release
     - name: Upload build
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
+        name: *
         path: ./build/bin/
 
