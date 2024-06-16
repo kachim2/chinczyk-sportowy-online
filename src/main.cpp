@@ -13,7 +13,7 @@
 #include "net.hpp"
 #include <stdint.h>
 #include <thread>
-
+#include <string>
 int tilesizex;
 int tilesizey;
 
@@ -156,9 +156,37 @@ int main(int argc, char *argv[])
   }
   else
   {
-    std::cout << "Insert Game Number:";
-    std::cin >> sdata->GameNum;
-    std::cout << sdata->GameNum;
+	std::string input;
+    while(!WindowShouldClose()){
+    	    int key = GetCharPressed();
+
+            // Check if more characters have been pressed on the same frame
+            while (key > 0)
+            {
+                // NOTE: Only allow keys in range [32..125]
+                if ((key >= 32) && (key <= 125) && (input.size() < 4))
+                {
+                    input.push_back( (char)key);
+                	}
+
+                key = GetCharPressed();  // Check next character in the queue
+            }
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
+		if(input.size() != 0)
+                input.pop_back();
+            }
+	    if(IsKeyPressed(KEY_ENTER)){
+	    sdata->GameNum = std::stoi(input);
+	    break;
+	    }
+	         BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+	    DrawText("Podaj Numer Gry:", (GetScreenWidth()-MeasureText("Podaj Numer Gry", 50))/2, 300, 50, BLACK);	
+	    DrawText(input.c_str(), (GetScreenWidth()-MeasureText(input.c_str(), 50))/2, 400, 50, BLACK);
+	    EndDrawing();
+    }
   }
   net_init(sdata.get());
   pawn pawns[4][4];
