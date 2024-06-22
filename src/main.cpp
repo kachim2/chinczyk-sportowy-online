@@ -139,8 +139,8 @@ int main(int argc, char *argv[])
   irand();
   // Initialization
   //--------------------------------------------------------------------------------------
-  int32_t screenWidth = 800;
-  int32_t screenHeight = 800;
+  int32_t screenWidth = 600;
+  int32_t screenHeight = 600;
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
   InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
